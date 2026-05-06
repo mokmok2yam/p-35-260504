@@ -152,4 +152,16 @@ class MemberRepositoryImpl(
 //            totalCount
 //        )
     }
+
+    override fun findQByNicknameContainingOrderByIdDesc(nickname: String): List<Member> {
+        val member = QMember.member
+
+        return jpaQueryFactory
+            .selectFrom(member)
+            .where(
+                member.nickname.contains(nickname)
+            )
+            .orderBy(member.id.desc())
+            .fetch()
+    }
 }
