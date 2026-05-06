@@ -5,6 +5,7 @@ plugins {
 	id("org.springframework.boot") version "4.0.6"
 	id("io.spring.dependency-management") version "1.1.7"
 	kotlin("plugin.jpa") version "2.2.21"
+	kotlin("kapt") version "2.2.21"
 }
 
 group = "com.back"
@@ -55,6 +56,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	//쿼리 dsl
 	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
+	kapt("io.github.openfeign.querydsl:querydsl-apt:7.1:jpa")
 }
 
 kotlin {
