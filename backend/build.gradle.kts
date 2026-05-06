@@ -40,12 +40,13 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
+	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
+	kapt("io.github.openfeign.querydsl:querydsl-apt:7.1:jpa")
 
 	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 
-	//kotlin관련
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("tools.jackson.module:jackson-module-kotlin")
 
@@ -54,9 +55,6 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	//쿼리 dsl
-	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
-	kapt("io.github.openfeign.querydsl:querydsl-apt:7.1:jpa")
 }
 
 kotlin {
@@ -71,10 +69,6 @@ allOpen {
   annotation("jakarta.persistence.Embeddable")
 }
 
-tasks.withType<JavaCompile> {
-	options.encoding = "UTF-8"
-}
 tasks.withType<Test> {
 	useJUnitPlatform()
-	systemProperty("file.encoding", "UTF-8")
 }
