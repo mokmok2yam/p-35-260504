@@ -5,32 +5,35 @@ import com.back.domain.member.entity.QMember
 import com.querydsl.jpa.impl.JPAQueryFactory
 
 class MemberRepositoryImpl(
-    private val jpaQueryFactory: JPAQueryFactory
-) : MemberRepositoryCustom{
+    private val jpaQueryFactory: JPAQueryFactory,
+) : MemberRepositoryCustom {
+
     override fun findQById(id: Int): Member? {
+
         val member = QMember.member
 
         return jpaQueryFactory
             .selectFrom(member)
-            .where(member.id.eq(id))
-            .fetchOne()
+            .where(member.id.eq(id)) // where member.id = id
+            .fetchOne() // limit 1
     }
 
     override fun findQByUsername(username: String): Member? {
         val member = QMember.member
+
         return jpaQueryFactory
             .selectFrom(member)
             .where(member.username.eq(username))
-            .fetchOne()
+            .fetchOne() // limit 1
     }
 
     override fun findQByIdIn(ids: List<Int>): List<Member> {
-        val member= QMember.member
+        val member = QMember.member
+
         return jpaQueryFactory
             .selectFrom(member)
             .where(member.id.`in`(ids))
             .fetch()
-
     }
 
     override fun findQByUsernameAndNickname(username: String, nickname: String): Member? {
@@ -56,6 +59,7 @@ class MemberRepositoryImpl(
             )
             .fetch()
     }
+
     override fun findQByUsernameAndEitherPasswordOrNickname(
         username: String,
         password: String,
@@ -73,5 +77,41 @@ class MemberRepositoryImpl(
                     )
             )
             .fetch()
+    }
+
+    // where nickname LIKE %a%
+    override fun findQByNicknameContaining(nickname: String): List<Member> {
+        val member = QMember.member
+
+        return jpaQueryFactory
+            .selectFrom(member)
+            .where(
+                member.nickname.contains(nickname)
+            )
+            .fetch()
+    }
+
+    override fun countQByNicknameContaining(nickname: String): Long {
+        val member = QMember.member
+
+        return jpaQueryFactory
+            .select(member.count())
+            .from(member)
+            .where(
+                member.nickname.contains(nickname)
+            )
+            .fetchOne() ?: 0L
+    }
+
+    override fun existsQByNicknameContaining(nickname: String): Boolean {
+        val member = QMember.member
+
+        return jpaQueryFactory
+            .selectOne()
+            .from(member)
+            .where(
+                member.nickname.contains(nickname)
+            )
+            .fetchFirst() != null
     }
 }
