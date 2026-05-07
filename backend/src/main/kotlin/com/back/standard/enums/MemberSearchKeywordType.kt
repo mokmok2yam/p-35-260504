@@ -1,4 +1,4 @@
-package com.back.standard.enum
+package com.back.standard.enums
 
 enum class MemberSearchKeywordType {
     USERNAME,
