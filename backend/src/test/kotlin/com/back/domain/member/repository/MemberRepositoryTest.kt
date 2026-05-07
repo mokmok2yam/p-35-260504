@@ -147,6 +147,7 @@ class MemberRepositoryTest {
             assertThat(members[i].id).isGreaterThan(members[i + 1].id)
         }
     }
+
     @Test
     fun `findByUsernameContaining with Pageable`() {
 
